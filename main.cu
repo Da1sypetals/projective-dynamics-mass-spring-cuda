@@ -167,11 +167,11 @@ int main() {
 
 
             for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
-                for (int icol = 0; icol > dSolver->cloth->nside; icol++) {
-                    auto x = dSolver->h_x[3 * dSolver->index(irow, icol)];
-                    auto y = dSolver->h_x[3 * dSolver->index(irow, icol) + 1];
-                    auto z = dSolver->h_x[3 * dSolver->index(irow, icol) + 2];
-                    std::cout << "[" << x << " " << y << " " << z << " " << "]  ";
+                for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
+                    printf("[%f, %f, %f]  ",
+                           dSolver->h_x[3 * dSolver->index(irow, icol)],
+                           dSolver->h_x[3 * dSolver->index(irow, icol) + 1],
+                           dSolver->h_x[3 * dSolver->index(irow, icol) + 2]);
                 }
                 std::cout << std::endl;
             }
