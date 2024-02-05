@@ -49,13 +49,22 @@ int main() {
 
     std::cout << ">>> Iteration per substep: " << n_iter << std::endl << std::endl;
 
-    for (int i = 0; i < cloth->numVertex; i++) {
-        std::cout << dSolver->d_x[3 * i] << " ";
-        std::cout << dSolver->d_x[3 * i + 1] << " ";
-        std::cout << dSolver->d_x[3 * i + 2] << " ";
-        std::cout << std::endl;
+
+    std::cout << "row ptr:" << std::endl;
+    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
+        std::cout << dSolver->h_M.outerIndexPtr()[i] << std::endl;
     }
 
+    std::cout << "\n\ncol idx:" << std::endl;
+    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+        std::cout << dSolver->h_M.innerIndexPtr()[i] << std::endl;
+    }
+
+    std::cout << "\n\nval:" << std::endl;
+    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+        std::cout << dSolver->h_M.valuePtr()[i] << std::endl;
+    }
+    
 
 
     // }
