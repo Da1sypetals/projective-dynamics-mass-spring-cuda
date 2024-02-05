@@ -113,6 +113,7 @@ public:
                                 d_constraints.data(),
                                 d_x.data(),
                                 d_d.data());
+        cudaDeviceSynchronize();
     }
 
 
