@@ -31,7 +31,7 @@ __global__ void D_LocalStep(int numConstraint,
 
     float3 dir = {d0, d1, d2};
     dir = normalize(dir);
-    printf("%d, %f, %f, %f", tid, dir.x, dir.y, dir.z);
+    printf("%f\n", con_ptr->restLength);
 
     d_d[tid * 3 + 0] = dir.x * con_ptr->restLength;
     d_d[tid * 3 + 1] = dir.y * con_ptr->restLength;
