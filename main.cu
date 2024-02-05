@@ -168,7 +168,7 @@ int main() {
 
             for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
                 for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
-                    printf("[%f, %f, %f]  ",
+                    printf("[%.3f, %.3f, %.3f]  ",
                            dSolver->h_x[3 * dSolver->index(irow, icol)],
                            dSolver->h_x[3 * dSolver->index(irow, icol) + 1],
                            dSolver->h_x[3 * dSolver->index(irow, icol) + 2]);
