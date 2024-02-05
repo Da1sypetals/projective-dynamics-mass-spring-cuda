@@ -7,6 +7,20 @@
 #include "cuda_runtime.h"
 #include <device_launch_parameters.h>
 
+struct GlobalAxpy {
+    __host__ __device__
+    float operator()(const float &x, const float &y) {
+        return x + dt2 * y;
+    }
+};
+
+struct AdvanceAxpy {
+    __host__ __device__
+    float operator()(const float &x, const float &y) {
+        return (2 - preservation) * x + (1 - preservation) * y;
+    }
+};
+
 
 class D_Solver {
 
@@ -16,8 +30,8 @@ private:
 
     bool initialized;
 
-    std::function<float(const float, const float)> advance_axpy; // ctor
-    std::function<float(const float, const float)> global_axpy; // ctor
+    GlobalAxpy global_axpy;
+    AdvanceAxpy advance_axpy;
 
 public:
 
@@ -95,14 +109,6 @@ public:
 
         d_constraints.resize(3 * cloth->numConstraint);
         thrust::copy(cloth->constraints.begin(), cloth->constraints.end(), d_constraints.begin());
-
-        global_axpy = [] __host__ __device__(const float a, const float b) {
-            return a + dt2 * b;
-        };
-
-        advance_axpy = [] __host__ __device__(const float &a, const float &b) {
-            return (2 - preservation) * a + (1 - preservation) * b;
-        };
 
     }
 
