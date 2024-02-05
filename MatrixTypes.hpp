@@ -221,10 +221,6 @@ public:
 
     // returns singularity
     int Solve(cusolverSpHandle_t solveHandle, const float *b, float *x) {
-        if (not initialized) {
-            std::cerr << "Fatal: base matrix not set!" << std::endl << std::endl;
-            exit(1);
-        }
         int singularity;
         cusolverSpScsrlsvchol(solveHandle,
                               csrMatrix.n,
