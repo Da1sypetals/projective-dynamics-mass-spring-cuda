@@ -151,10 +151,6 @@ public:
                           advance_axpy);
         std::cout << "transform\n";
 
-        for (int i = 0; i < 10; i++) {
-            std::cout << (d_y[i] - ((2 - preservation) * d_x[i] + (1 - preservation) * d_x_prev[i])) << std::endl;
-        }
-
 
         thrust::copy(d_x.begin(), d_x.end(), d_x_prev.begin());
         std::cout << "copy prev\n";

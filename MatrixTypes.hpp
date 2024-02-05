@@ -127,6 +127,7 @@ struct csr_rect {
                      d_mvBuffer);
 
         cudaDeviceSynchronize();
+        std::cout << "alpha beta : " << *(&alpha) << "  " << *(&beta) << std::endl;
 
         cudaFree(d_mvBuffer);
 
