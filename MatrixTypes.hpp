@@ -136,7 +136,6 @@ struct csr_rect {
 
 struct csr_matrix {
 
-private:
 
     thrust::device_vector<float> d_val_vec;
     thrust::device_vector<int> d_row_ptr_vec;
@@ -156,7 +155,7 @@ public:
     csr_matrix(const eg::SparseMatrix<float, eg::RowMajor> &mat) {
 
         if (not mat.IsRowMajor) {
-            std::cerr << "Fatal: Incompatible matrix type! Row major expected" << std::endl;
+            std::cerr << "Fatal: Incompatible matrix type! Row major (CSR format) expected." << std::endl;
             exit(1);
         }
 

@@ -52,18 +52,34 @@ int main() {
 
     std::cout << "row ptr:" << std::endl;
     for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
-        std::cout << dSolver->h_M.outerIndexPtr()[i] << std::endl;
+        std::cout << dSolver->d_M.d_row_ptr_vec[i] << std::endl;
     }
-
     std::cout << "\n\ncol idx:" << std::endl;
     for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-        std::cout << dSolver->h_M.innerIndexPtr()[i] << std::endl;
+        std::cout << dSolver->d_M.d_col_idx_vec[i] << std::endl;
     }
-
     std::cout << "\n\nval:" << std::endl;
     for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-        std::cout << dSolver->h_M.valuePtr()[i] << std::endl;
+        std::cout << dSolver->d_M.d_val_vec[i] << std::endl;
     }
+    
+    
+    
+    // test 2
+//    std::cout << "row ptr:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
+//        std::cout << dSolver->h_M.outerIndexPtr()[i] << std::endl;
+//    }
+//
+//    std::cout << "\n\ncol idx:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->h_M.innerIndexPtr()[i] << std::endl;
+//    }
+//
+//    std::cout << "\n\nval:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->h_M.valuePtr()[i] << std::endl;
+//    }
     
 
 
