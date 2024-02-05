@@ -1,5 +1,20 @@
-#include "helper_math.h"
 #include <device_launch_parameters.h>
+
+inline __host__ __device__ float3 operator*(float3 a, float b)
+{
+    return make_float3(a.x * b, a.y * b, a.z * b);
+}
+
+inline __host__ __device__ float dot(float3 a, float3 b)
+{
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+inline __host__ __device__ float3 normalize(float3 v)
+{
+    float invLen = rsqrtf(dot(v, v));
+    return v * invLen;
+}
 
 __global__ void D_LocalStep(int numConstraint,
                             thrust::device_ptr<Constraint> d_constraints,
