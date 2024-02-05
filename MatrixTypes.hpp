@@ -213,12 +213,10 @@ class D_Cholesky {
 
     csr_matrix &csrMatrix;
     float tol;
-    bool initialized;
 
 public:
 
     explicit D_Cholesky(csr_matrix &_csrMatrix, float _tol = 1e-6) : csrMatrix(_csrMatrix), tol(_tol) {
-        initialized = false;
     }
 
     // returns singularity
