@@ -7,6 +7,17 @@
 #include "cuda_runtime.h"
 #include <device_launch_parameters.h>
 
+struct Axpby {
+    float a, b;
+
+    Axpby(float _a, float _b) : a(_a), b(_b) {}
+
+    __host__ __device__
+    float operator()(const float &x, const float &y) const {
+        return a * x + b * y;
+    }
+};
+
 struct GlobalAxpy {
     __host__ __device__
     float operator()(const float &x, const float &y) {
@@ -87,6 +98,8 @@ public:
         // (2) Axpby(handle, h2, d, 1, b) => b = h2 * J * d + b
         d_J.Axpby(cusparseHandle, dt2, dn_d, 1, dn_b);
 
+        // (1) (2) b = h2*J*d + y + h2*f_ext
+
         // (3) solve linear system Yx = b
         cholesky->Solve(cusolverHandle,
                         thrust::raw_pointer_cast(d_b.data()),
@@ -138,16 +151,18 @@ public:
                           advance_axpy);
         std::cout << "transform\n";
 
+        for (int i = 0; i < 10; i++) {
+            std::cout << (d_y[i] - ((2 - preservation) * d_x[i] + (1 - preservation) * d_x_prev[i])) << std::endl;
+        }
+
+
         thrust::copy(d_x.begin(), d_x.end(), d_x_prev.begin());
         std::cout << "copy prev\n";
 
 
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
-            std::cout << "Local\n";
-
             GlobalStep();
-            std::cout << "Global\n";
 
         }
 
