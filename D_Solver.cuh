@@ -136,12 +136,19 @@ public:
                           d_x_prev.begin(),
                           d_y.begin(),
                           advance_axpy);
+        std::cout << "transform\n";
 
         thrust::copy(d_x.begin(), d_x.end(), d_x_prev.begin());
+        std::cout << "copy prev\n";
+
 
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
+            std::cout << "Local\n";
+
             GlobalStep();
+            std::cout << "Global\n";
+
         }
 
         for (auto &&[ifixed, fixpos]: fixed) {
@@ -151,6 +158,7 @@ public:
         }
 
         thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
+        std::cout << "copy to host\n";
 
 
     }
