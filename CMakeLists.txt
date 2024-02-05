@@ -16,6 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(CUDA REQUIRED)
+target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES} ${CUDA_cusolver_LIBRARY} ${CUDA_cusparse_LIBRARY})
 
 set(RAYLIB_VERSION 5.0)
 include_directories(${EIGEN3_INCLUDE_DIRS})
