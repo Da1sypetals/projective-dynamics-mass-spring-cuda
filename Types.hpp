@@ -9,6 +9,8 @@ struct Constraint {
     int istart, iend;
     float restLength;
 
+    Constraint() = default;
+
     Constraint(int _istart, int _iend, float _restLength) : istart(_istart), iend(_iend), restLength(_restLength) {}
 
 };

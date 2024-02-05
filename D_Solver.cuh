@@ -8,7 +8,6 @@
 #include <device_launch_parameters.h>
 
 
-
 class D_Solver {
 
     friend class D_Preprocessor;
@@ -97,11 +96,11 @@ public:
         d_constraints.resize(3 * cloth->numConstraint);
         thrust::copy(cloth->constraints.begin(), cloth->constraints.end(), d_constraints.begin());
 
-        global_axpy = [](const float a, const float b) {
+        global_axpy = [] __host__ __device__(const float a, const float b) {
             return a + dt2 * b;
         };
 
-        advance_axpy = [](const float &a, const float &b) {
+        advance_axpy = [] __host__ __device__(const float &a, const float &b) {
             return (2 - preservation) * a + (1 - preservation) * b;
         };
 
