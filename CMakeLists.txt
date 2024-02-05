@@ -17,19 +17,25 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
-
+set(RAYLIB_VERSION 5.0)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
+set(RAYLIB_URL "file://C:/Users/Jimmy/Downloads/raylib-${RAYLIB_VERSION}.tar.gz")
+
+if (LINUX)
+    set(RAYLIB_URL "https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz")
+endif ()
+
+
 # Dependencies
-set(RAYLIB_VERSION 5.0)
+
 find_package(raylib ${RAYLIB_VERSION} QUIET) # QUIET or REQUIRED
 if (NOT raylib_FOUND) # If there's none, fetch and build raylib
     include(FetchContent)
     FetchContent_Declare(
             raylib
             DOWNLOAD_EXTRACT_TIMESTAMP OFF
-            #    URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
-            URL file://C:/Users/Jimmy/Downloads/raylib-${RAYLIB_VERSION}.tar.gz
+            URL ${RAYLIB_URL}
     )
     FetchContent_GetProperties(raylib)
     if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
