@@ -37,12 +37,11 @@ __global__ void D_LocalStep(int numConstraint,
     d_d[tid * 3 + 1] = dir_times_restLength.y;
     d_d[tid * 3 + 2] = dir_times_restLength.z;
 
-    printf("%d: [%.3f, %.3f, %.3f]\n",
-           tid,
-           static_cast<double>(d_d[tid * 3 + 0]),
-           static_cast<double>(d_d[tid * 3 + 1]),
-           static_cast<double>(d_d[tid * 3 + 2]));
-
+//    printf("%d: [%.3f, %.3f, %.3f]\n",
+//           tid,
+//           static_cast<double>(d_d[tid * 3 + 0]),
+//           static_cast<double>(d_d[tid * 3 + 1]),
+//           static_cast<double>(d_d[tid * 3 + 2]));
 
 }
 
