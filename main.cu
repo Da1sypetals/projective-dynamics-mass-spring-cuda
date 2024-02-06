@@ -191,7 +191,7 @@ int main() {
                 std::cout << std::endl;
             }
 
-            std::cout << "\n --- Press any key to continue --- \n";
+            std::cout << "\n --- Press Enter to continue --- \n";
             std::cin.get();
 
 
