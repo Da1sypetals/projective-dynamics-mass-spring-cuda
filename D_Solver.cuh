@@ -109,14 +109,18 @@ public:
     }
 
     void LocalStep() {
+
         D_LocalStep<<<64, 32>>>(cloth->numConstraint,
                                 d_constraints.data(),
                                 d_x.data(),
                                 d_d.data());
         cudaDeviceSynchronize();
+        
+        thrust::host_vector<float> hd = d_d;
+        
         std::cout << "d: " << std::endl;
         for (int i = 0; i < cloth->numConstraint; i++) {
-            printf("[%.3f, %.3f, %.3f]  \n", d_d[3 * i], d_d[3 * i + 1], d_d[3 * i + 2]);
+            printf("[%.3f, %.3f, %.3f]  \n", hd[3 * i], hd[3 * i + 1], hd[3 * i + 2]);
         }
         std::cout << std::endl << std::endl;
     }
