@@ -9,6 +9,9 @@
 
 #include "D_Solver.cuh"
 #include "D_Preprocessor.hpp"
+#include "H_Solver.hpp"
+#include "SolverPreprocesser.hpp"
+
 
 
 int main() {
@@ -31,7 +34,25 @@ int main() {
 
     // }
 
-    // init solver {
+    // init host solver {
+
+    std::shared_ptr<Cloth> hcloth = std::make_shared<Cloth>(n, size, k);
+    std::shared_ptr<H_Solver> hSolver = std::make_shared<H_Solver>(hcloth, n_iter);
+    std::shared_ptr<SolverPreprocessor> hpre = std::make_shared<SolverPreprocessor>(hSolver);
+    hpre->Init();
+
+    std::cout << ">>> Preprocessing done...\n" << std::endl;
+
+
+    hSolver->AddFixed(0, 0);
+    hSolver->AddFixed(0, n - 1);
+
+    std::cout << ">>> Iteration per substep: " << n_iter << std::endl << std::endl;
+
+
+    // }
+
+    // init device solver {
 
 
     std::shared_ptr<Cloth> cloth = std::make_shared<Cloth>(n, size, k);
@@ -97,6 +118,7 @@ int main() {
 
 //            std::cout << "substep :" << substep << std::endl;
             dSolver->Step();
+            hSolver->Step();
 
         }
     };
@@ -166,6 +188,16 @@ int main() {
             std::cout << ">>> update" << std::endl;
 
             
+            for (int irow = 0; irow < hSolver->cloth->nside; irow++) {
+                for (int icol = 0; icol < hSolver->cloth->nside; icol++) {
+                    printf("[%.3f, %.3f, %.3f]  ",
+                           hSolver->x[3 * dSolver->index(irow, icol)],
+                           hSolver->x[3 * dSolver->index(irow, icol) + 1],
+                           hSolver->x[3 * dSolver->index(irow, icol) + 2]);
+                }
+                std::cout << std::endl;
+            }
+
             for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
                 for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
                     printf("[%.3f, %.3f, %.3f]  ",

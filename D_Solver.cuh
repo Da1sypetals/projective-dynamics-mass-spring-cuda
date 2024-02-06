@@ -111,7 +111,6 @@ public:
 
         cudaDeviceSynchronize();
 
-
     }
 
     void LocalStep() {
@@ -170,7 +169,7 @@ public:
             GlobalStep();
 
         }
-        
+
 
         for (auto &&[ifixed, fixpos]: fixed) {
             d_x[3 * ifixed] = fixpos.x;

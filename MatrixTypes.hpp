@@ -234,6 +234,8 @@ public:
                               0,
                               x,
                               &singularity);
+        
+        cudaDeviceSynchronize();
 
         return singularity;
     }
