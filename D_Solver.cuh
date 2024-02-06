@@ -99,7 +99,7 @@ public:
 
         // (2) Axpby(handle, h2, d, 1, b) => b = h2 * J * d + b
         d_J.Axpby(cusparseHandle, dt2, dn_d, 1, dn_b);
-        
+
         cudaDeviceSynchronize();
 
         // (1) (2) b = h2*J*d + y + h2*f_ext
@@ -121,7 +121,7 @@ public:
                                 d_x.data(),
                                 d_d.data());
         cudaDeviceSynchronize();
-        
+
     }
 
 
@@ -179,6 +179,15 @@ public:
 
         thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
         std::cout << "copy to host\n";
+
+        void *d = nullptr;
+        cusparseDnVecGetValues(dn_d.dnVecDescr, &d);
+
+        auto df = static_cast<float *>(d);
+
+        for (int i = 0; i < 3 * cloth->numConstraint; i++) {
+            std::cout << df[i] << std::endl;
+        }
 
 
     }
