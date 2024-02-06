@@ -165,22 +165,7 @@ int main() {
             updateTimer.stop();
             std::cout << ">>> update" << std::endl;
 
-
-//            thrust::host_vector<float> hd = dSolver->d_d;
-//
-//            std::cout << "d: " << std::endl;
-//            for (int i = 0; i < cloth->numConstraint; i++) {
-//                printf("[%.3f, %.3f, %.3f]  \n", hd[3 * i], hd[3 * i + 1], hd[3 * i + 2]);
-//            }
-//            std::cout << std::endl << std::endl;
-
-//            std::cout << "d: " << std::endl;
-//            for (int i = 0; i < dSolver->cloth->numConstraint; i++) {
-//                printf("[%.3f, %.3f, %.3f]  \n", dSolver->d_d[3 * i], dSolver->d_d[3 * i + 1], dSolver->d_d[3 * i + 2]);
-//            }
-//            std::cout << std::endl << std::endl;
-
-
+            
             for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
                 for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
                     printf("[%.3f, %.3f, %.3f]  ",

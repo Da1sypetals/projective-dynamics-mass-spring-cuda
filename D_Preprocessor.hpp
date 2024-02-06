@@ -5,8 +5,8 @@
 
 
 class D_Preprocessor {
-    
-    
+
+
 public:
 
     std::shared_ptr<D_Solver> dSolver;
@@ -73,9 +73,10 @@ public:
                 // init pos {
                 dSolver->d_x[3 * idx] =
                         dSolver->cloth->size * static_cast<float>(irow) / static_cast<float>(dSolver->cloth->nside - 1);
-                dSolver->d_x[3 * idx + 1] =
+                dSolver->d_x[3 * idx + 1] = 0;
+
+                dSolver->d_x[3 * idx + 2] =
                         dSolver->cloth->size * static_cast<float>(icol) / static_cast<float>(dSolver->cloth->nside - 1);
-                dSolver->d_x[3 * idx + 2] = 0;
                 dSolver->d_x_prev[3 * idx] = dSolver->d_x[3 * idx];
                 dSolver->d_x_prev[3 * idx + 1] = dSolver->d_x[3 * idx + 1];
                 dSolver->d_x_prev[3 * idx + 2] = dSolver->d_x[3 * idx + 2];
@@ -83,8 +84,8 @@ public:
 
                 // init force {
                 dSolver->d_f_external[3 * idx] = 0;
-                dSolver->d_f_external[3 * idx + 1] = 0;
-                dSolver->d_f_external[3 * idx + 2] = gravity;
+                dSolver->d_f_external[3 * idx + 1] = gravity;
+                dSolver->d_f_external[3 * idx + 2] = 0;
                 // }
 
 
