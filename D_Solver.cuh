@@ -180,13 +180,16 @@ public:
         thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
         std::cout << "copy to host\n";
 
+        // ---
+
         void *d = nullptr;
         cusparseDnVecGetValues(dn_d.dnVecDescr, &d);
 
-        auto df = static_cast<float *>(d);
+        float *hd = new float[3 * cloth->numConstraint];
+        cudaMemcpy(hd, d, sizeof(float) * 3 * cloth->numConstraint, cudaMemcpyDefault);
 
         for (int i = 0; i < 3 * cloth->numConstraint; i++) {
-            std::cout << df[i] << std::endl;
+            std::cout << hd[i] << std::endl;
         }
 
 
