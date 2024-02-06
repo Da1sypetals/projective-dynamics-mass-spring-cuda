@@ -95,8 +95,12 @@ public:
         // (1) b = y + h2 * f_ext
         thrust::transform(d_y.begin(), d_y.end(), d_f_external.begin(), d_b.begin(), global_axpy);
 
+        cudaDeviceSynchronize();
+
         // (2) Axpby(handle, h2, d, 1, b) => b = h2 * J * d + b
         d_J.Axpby(cusparseHandle, dt2, dn_d, 1, dn_b);
+        
+        cudaDeviceSynchronize();
 
         // (1) (2) b = h2*J*d + y + h2*f_ext
 
@@ -104,6 +108,8 @@ public:
         cholesky->Solve(cusolverHandle,
                         thrust::raw_pointer_cast(d_b.data()),
                         thrust::raw_pointer_cast(d_x.data()));
+
+        cudaDeviceSynchronize();
 
 
     }

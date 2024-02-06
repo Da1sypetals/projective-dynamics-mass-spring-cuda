@@ -166,13 +166,13 @@ int main() {
             std::cout << ">>> update" << std::endl;
 
 
-            thrust::host_vector<float> hd = dSolver->d_d;
-
-            std::cout << "d: " << std::endl;
-            for (int i = 0; i < cloth->numConstraint; i++) {
-                printf("[%.3f, %.3f, %.3f]  \n", hd[3 * i], hd[3 * i + 1], hd[3 * i + 2]);
-            }
-            std::cout << std::endl << std::endl;
+//            thrust::host_vector<float> hd = dSolver->d_d;
+//
+//            std::cout << "d: " << std::endl;
+//            for (int i = 0; i < cloth->numConstraint; i++) {
+//                printf("[%.3f, %.3f, %.3f]  \n", hd[3 * i], hd[3 * i + 1], hd[3 * i + 2]);
+//            }
+//            std::cout << std::endl << std::endl;
 
 //            std::cout << "d: " << std::endl;
 //            for (int i = 0; i < dSolver->cloth->numConstraint; i++) {
