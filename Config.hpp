@@ -1,3 +1,5 @@
+#pragma once
+
 constexpr float dt = .01;
 constexpr float dt2 = dt * dt;
 constexpr float preservation = .003;

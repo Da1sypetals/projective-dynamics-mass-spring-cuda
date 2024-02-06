@@ -166,6 +166,15 @@ public:
 
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
+            if (iter == 0) {
+                std::cout << "@device:" << std::endl;
+                for (int i = 0; i < cloth->numConstraint; i++) {
+                    std::cout << d_d[3 * i];
+                    std::cout << d_d[3 * i + 1];
+                    std::cout << d_d[3 * i + 2];
+                    std::cout << std::endl;
+                }
+            }
             GlobalStep();
 
         }
@@ -180,18 +189,6 @@ public:
 
         thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
         std::cout << "copy to host\n";
-
-        // ---
-
-        void *d = nullptr;
-        cusparseDnVecGetValues(dn_d.dnVecDescr, &d);
-
-        std::unique_ptr<float[]> hd(new float[3 * cloth->numConstraint]);
-        cudaMemcpy(hd.get(), d, sizeof(float) * 3 * cloth->numConstraint, cudaMemcpyDefault);
-
-        for (int i = 0; i < 3 * cloth->numConstraint; i++) {
-            std::cout << hd[i] << std::endl;
-        }
 
 
     }

@@ -90,6 +90,17 @@ public:
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
 //            std::cout << iter << "Local" << std::endl;
+
+            if (iter == 0) {
+                std::cout << "@host:" << std::endl;
+                for (int i = 0; i < cloth->numConstraint; i++) {
+                    std::cout << d[3 * i];
+                    std::cout << d[3 * i + 1];
+                    std::cout << d[3 * i + 2];
+                    std::cout << std::endl;
+                }
+            }
+
             GlobalStep();
 //            std::cout << iter << "Global" << std::endl;
 
