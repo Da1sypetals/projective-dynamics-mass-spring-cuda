@@ -167,15 +167,22 @@ public:
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
             if (iter == 0) {
-                std::cout << "@device:" << std::endl;
+                std::cout << "@host d:" << std::endl;
                 for (int i = 0; i < cloth->numConstraint; i++) {
-                    std::cout << d_d[3 * i];
-                    std::cout << d_d[3 * i + 1];
-                    std::cout << d_d[3 * i + 2];
-                    std::cout << std::endl;
+                    printf("[%.3f, %.3f, %.3f]",
+                           static_cast<float>(d_d[3 * i]),
+                           static_cast<float>(d_d[3 * i + 1]),
+                           static_cast<float>(d_d[3 * i + 2]));
                 }
             }
             GlobalStep();
+            std::cout << "@host x:" << std::endl;
+            for (int i = 0; i < cloth->numVertex; i++) {
+                printf("[%.3f, %.3f, %.3f]",
+                       static_cast<float>(d_x[3 * i]),
+                       static_cast<float>(d_x[3 * i + 1]),
+                       static_cast<float>(d_x[3 * i + 2]));
+            }
 
         }
 
