@@ -171,7 +171,6 @@ public:
 
         }
         
-        cudaDeviceSynchronize();
 
         for (auto &&[ifixed, fixpos]: fixed) {
             d_x[3 * ifixed] = fixpos.x;
@@ -180,8 +179,7 @@ public:
         }
 
 
-        h_x = d_x;
-//        thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
+        thrust::copy(d_x.begin(), d_x.end(), h_x.begin());
         std::cout << "copy to host\n";
 
         // ---
