@@ -220,9 +220,9 @@ int main() {
     tr.push_back(eg::Triplet<float>(1, 0, 0));
     tr.push_back(eg::Triplet<float>(1, 1, 2));
     tr.push_back(eg::Triplet<float>(1, 2, 6));
-    tr.push_back(eg::Triplet<float>(3, 0, 3));
-    tr.push_back(eg::Triplet<float>(3, 1, 6));
-    tr.push_back(eg::Triplet<float>(3, 2, 2));
+    tr.push_back(eg::Triplet<float>(2, 0, 3));
+    tr.push_back(eg::Triplet<float>(2, 1, 6));
+    tr.push_back(eg::Triplet<float>(2, 2, 2));
     h_mat.setFromTriplets(tr.begin(), tr.end());
 
     csr_rect d_mat(h_mat);
