@@ -223,7 +223,7 @@ public:
     // returns singularity
     int Solve(cusolverSpHandle_t solveHandle, const float *b, float *x) {
         int singularity;
-        cusolverSpScsrlsvqr(solveHandle,
+        cusolverSpScsrlsvchol(solveHandle,
                               csrMatrix.n,
                               csrMatrix.nnz,
                               csrMatrix.descr,
