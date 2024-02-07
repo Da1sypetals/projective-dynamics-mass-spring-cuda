@@ -3,6 +3,7 @@
 #include "thrust/device_vector.h"
 #include "cusparse_v2.h"
 #include "cusolverSp.h"
+#include "Types.hpp"
 
 struct dense_vec {
 

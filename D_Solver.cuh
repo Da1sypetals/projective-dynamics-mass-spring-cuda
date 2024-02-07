@@ -166,26 +166,7 @@ public:
 
         for (int iter = 0; iter < n_iter; iter++) {
             LocalStep();
-            if (iter == 0) {
-                std::cout << "@device d:" << std::endl;
-                for (int i = 0; i < cloth->numConstraint; i++) {
-                    printf("[%.3f, %.3f, %.3f]\n",
-                           static_cast<float>(d_d[3 * i]),
-                           static_cast<float>(d_d[3 * i + 1]),
-                           static_cast<float>(d_d[3 * i + 2]));
-                }
-            }
             GlobalStep();
-            if (iter == 0) {
-                std::cout << "@device x:" << std::endl;
-                for (int i = 0; i < cloth->numVertex; i++) {
-                    printf("[%.3f, %.3f, %.3f]\n",
-                           static_cast<float>(d_x[3 * i]),
-                           static_cast<float>(d_x[3 * i + 1]),
-                           static_cast<float>(d_x[3 * i + 2]));
-                }
-            }
-            
 
         }
 
