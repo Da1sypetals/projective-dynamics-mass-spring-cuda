@@ -13,7 +13,6 @@
 #include "SolverPreprocesser.hpp"
 
 
-
 int main() {
 
     int n;
@@ -187,7 +186,7 @@ int main() {
             updateTimer.stop();
             std::cout << ">>> update" << std::endl;
 
-            
+
             for (int irow = 0; irow < hSolver->cloth->nside; irow++) {
                 for (int icol = 0; icol < hSolver->cloth->nside; icol++) {
                     printf("[%.3f, %.3f, %.3f]  ",
@@ -214,6 +213,9 @@ int main() {
 
         }
     }
+
+    cusparseDestroy(cusparseHandle);
+    cusolverSpDestroy(cusolverSpHandle);
 
 
     return 0;
