@@ -176,13 +176,16 @@ public:
                 }
             }
             GlobalStep();
-            std::cout << "@device x:" << std::endl;
-            for (int i = 0; i < cloth->numVertex; i++) {
-                printf("[%.3f, %.3f, %.3f]\n",
-                       static_cast<float>(d_x[3 * i]),
-                       static_cast<float>(d_x[3 * i + 1]),
-                       static_cast<float>(d_x[3 * i + 2]));
+            if (iter == 0) {
+                std::cout << "@device x:" << std::endl;
+                for (int i = 0; i < cloth->numVertex; i++) {
+                    printf("[%.3f, %.3f, %.3f]\n",
+                           static_cast<float>(d_x[3 * i]),
+                           static_cast<float>(d_x[3 * i + 1]),
+                           static_cast<float>(d_x[3 * i + 2]));
+                }
             }
+            
 
         }
 
