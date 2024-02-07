@@ -211,7 +211,7 @@ int main() {
     cusparseHandle_t handle = nullptr;
     cusparseCreate(&handle);
 
-    eg::SparseMatrix<float, eg::RowMajor> h_mat;
+    eg::SparseMatrix<float, eg::RowMajor> h_mat(3, 3);
 
     std::vector<eg::Triplet<float>> tr;
     tr.push_back(eg::Triplet<float>(0, 0, 1));
