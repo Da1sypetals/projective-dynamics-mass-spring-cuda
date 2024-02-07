@@ -121,6 +121,9 @@ public:
     }
 
     void InitDevConstraints() {
+
+        dSolver->d_constraints.resize(dSolver->cloth->numConstraint);
+        
         thrust::copy(dSolver->cloth->constraints.begin(), dSolver->cloth->constraints.end(),
                      dSolver->d_constraints.begin());
 

@@ -58,3 +58,41 @@
 //
 //    return 0;
 //}
+
+
+
+
+__global__ void kernel(int n, thrust::device_ptr<float> a, thrust::device_ptr<float> p) {
+
+    int tid = blockDim.x * blockIdx.x + threadIdx.x;
+    if (tid > n) {
+        return;
+    }
+
+    p[tid] = a[tid] * a[tid];
+
+}
+
+
+//int main() {
+//
+//    int n;
+//    float init, step;
+//    std::cout << "N, init, step:" << std::endl;
+//    std::cin >> n >> init >> step;
+//
+//    thrust::device_vector<float> a(n);
+//    thrust::device_vector<float> p(n);
+//
+//
+//    thrust::sequence(a.begin(), a.end(), init, step);
+//
+//    kernel<<<32, 16>>>(n, a.data(), p.data());
+//
+//    for (int i = 0; i < n; i++) {
+//        std::cout << p[i] << " ";
+//    }
+//
+//    return 0;
+//
+//}

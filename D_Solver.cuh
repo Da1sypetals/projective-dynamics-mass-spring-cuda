@@ -136,8 +136,7 @@ public:
     D_Solver(std::shared_ptr<Cloth> _cloth, int _n_iter)
             : cloth(_cloth), n_iter(_n_iter) {
 
-        d_constraints.resize(3 * cloth->numConstraint);
-        thrust::copy(cloth->constraints.begin(), cloth->constraints.end(), d_constraints.begin());
+        
 
     }
 
