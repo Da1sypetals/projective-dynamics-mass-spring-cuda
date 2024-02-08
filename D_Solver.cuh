@@ -89,14 +89,25 @@ public:
         return irow * cloth->nside + icol;
     }
 
+    void LocalStep() {
+
+        D_LocalStep<<<64, 32>>>(cloth->numConstraint,
+                                d_constraints.data(),
+                                d_x.data(),
+                                d_d.data());
+        cudaDeviceSynchronize();
+
+    }
+
     void GlobalStep() {
 
+        thrust::host_vector<float> h_d = d_d;
         std::cout << "d" << std::endl;
         for (int i = 0; i < cloth->numConstraint; i++) {
             printf("[%.3f, %.3f, %.3f]\n",
-                   d_d[3 * i + 0],
-                   d_d[3 * i + 1],
-                   d_d[3 * i + 2]);
+                   h_d[3 * i + 0],
+                   h_d[3 * i + 1],
+                   h_d[3 * i + 2]);
         }
 
 
@@ -121,24 +132,10 @@ public:
 
     }
 
-    void LocalStep() {
-
-        D_LocalStep<<<64, 32>>>(cloth->numConstraint,
-                                d_constraints.data(),
-                                d_x.data(),
-                                d_d.data());
-        cudaDeviceSynchronize();
-
-    }
-
 
     // API
     D_Solver(std::shared_ptr<Cloth> _cloth, int _n_iter)
-            : cloth(_cloth), n_iter(_n_iter) {
-
-        
-
-    }
+            : cloth(_cloth), n_iter(_n_iter) {}
 
     void SetHandles(cusolverSpHandle_t _cusolverHandle, cusparseHandle_t _cusparseHandle) {
         cusolverHandle = _cusolverHandle;
