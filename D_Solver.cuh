@@ -104,7 +104,11 @@ public:
         thrust::host_vector<float> h_d = d_d;
         std::cout << "d" << std::endl;
         for (int i = 0; i < cloth->numConstraint; i++) {
-            printf("[%.3f, %.3f, %.3f]\n",
+            printf("d[%.3f, %.3f, %.3f]\n",
+                   d_d[3 * i + 0],
+                   d_d[3 * i + 1],
+                   d_d[3 * i + 2]);
+            printf("h[%.3f, %.3f, %.3f]\n",
                    h_d[3 * i + 0],
                    h_d[3 * i + 1],
                    h_d[3 * i + 2]);
