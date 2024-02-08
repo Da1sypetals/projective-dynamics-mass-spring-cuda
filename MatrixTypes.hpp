@@ -18,9 +18,8 @@ struct dense_vec {
                             static_cast<void *>(thrust::raw_pointer_cast(vec.data())),
                             CUDA_R_32F);
 
-        std::cout << "size = " << static_cast<int64_t>(vec.size()) << std::endl;
     }
-
+    
 
 };
 

@@ -7,6 +7,7 @@
 #include "cuda_runtime.h"
 #include <device_launch_parameters.h>
 
+
 struct Axpby {
     float a, b;
 
