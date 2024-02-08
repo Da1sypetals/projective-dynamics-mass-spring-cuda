@@ -101,7 +101,8 @@ public:
 
     void GlobalStep() {
 
-        thrust::host_vector<float> h_d = d_d;
+        thrust::host_vector<float> h_d(3 * cloth->numConstraint);
+        thrust::copy(d_d.begin(), d_d.end(), h_d.begin());
         std::cout << "d" << std::endl;
         for (int i = 0; i < cloth->numConstraint; i++) {
             printf("d[%.3f, %.3f, %.3f]\n",
