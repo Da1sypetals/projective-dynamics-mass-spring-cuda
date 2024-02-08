@@ -101,21 +101,6 @@ public:
 
     void GlobalStep() {
 
-        thrust::host_vector<float> h_d(3 * cloth->numConstraint);
-        thrust::copy(d_d.begin(), d_d.end(), h_d.begin());
-        std::cout << "d" << std::endl;
-        for (int i = 0; i < cloth->numConstraint; i++) {
-            printf("d[%.3f, %.3f, %.3f]\n",
-                   static_cast<float>(d_d[3 * i + 0]),
-                   static_cast<float>(d_d[3 * i + 1]),
-                   static_cast<float>(d_d[3 * i + 2]));
-            printf("h[%.3f, %.3f, %.3f]\n",
-                   h_d[3 * i + 0],
-                   h_d[3 * i + 1],
-                   h_d[3 * i + 2]);
-        }
-
-
         // (1) b = y + h2 * f_ext
         thrust::transform(d_y.begin(), d_y.end(), d_f_external.begin(), d_b.begin(), global_axpy);
 
