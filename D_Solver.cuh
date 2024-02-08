@@ -100,7 +100,7 @@ public:
     }
 
     void GlobalStep() {
-
+        
         // (1) b = y + h2 * f_ext
         thrust::transform(d_y.begin(), d_y.end(), d_f_external.begin(), d_b.begin(), global_axpy);
 

@@ -4,6 +4,7 @@
 #include "cusparse_v2.h"
 #include "cusolverSp.h"
 #include "Types.hpp"
+#include <iostream>
 
 struct dense_vec {
 
@@ -16,6 +17,8 @@ struct dense_vec {
                             static_cast<int64_t>(vec.size()),
                             static_cast<void *>(thrust::raw_pointer_cast(vec.data())),
                             CUDA_R_32F);
+
+        std::cout << "size = " << static_cast<int64_t>(vec.size()) << std::endl;
     }
 
 
@@ -235,7 +238,7 @@ public:
                               0,
                               x,
                               &singularity);
-        
+
         cudaDeviceSynchronize();
 
         return singularity;
