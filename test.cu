@@ -96,3 +96,76 @@ __global__ void kernel(int n, thrust::device_ptr<float> a, thrust::device_ptr<fl
 //    return 0;
 //
 //}
+
+
+
+//#include "cuda_runtime.h"
+//#include "device_launch_parameters.h"
+//#include <cusolverSp.h>
+//#include <Eigen/Sparse>
+//#include <Eigen/Dense>
+//#include "MatrixTypes.hpp"
+//#include <iostream>
+//
+//int main() {
+//    cusolverSpHandle_t handle = nullptr;
+//    cusolverSpCreate(&handle);
+//
+//    // Define matrix entries
+//    // (row, column, value), indexing starts at 0
+//    typedef Eigen::Triplet<float> T;
+//    std::vector<T> tripletList;
+//    tripletList.reserve(9);
+//    tripletList.push_back(T(0, 0, 4));
+//    tripletList.push_back(T(0, 1, 1));
+//    tripletList.push_back(T(0, 2, 1));
+//    tripletList.push_back(T(1, 0, 1));
+//    tripletList.push_back(T(1, 1, 3));
+//    tripletList.push_back(T(1, 2, 1));
+//    tripletList.push_back(T(2, 0, 1));
+//    tripletList.push_back(T(2, 1, 1));
+//    tripletList.push_back(T(2, 2, 2));
+//
+//    // Create the Eigen sparse matrix
+//    Eigen::SparseMatrix<float, Eigen::RowMajor> spA(3,3);
+//    spA.setFromTriplets(tripletList.begin(), tripletList.end());
+//
+//    // b is a 3x1 vector
+//    Eigen::Vector3f b;
+//    b << 1, 2, 3;
+//
+//
+//    // Create csr_matrix from spA
+//    csr_matrix csr_A(spA);
+//
+//    // Initialize the Cholesky solver
+//    D_Cholesky solver(csr_A);
+//
+//    // Buffers to hold the solution and right-hand side vector
+//    thrust::device_vector<float> d_x_vec = {0, 0, 0};
+//    float *d_x = thrust::raw_pointer_cast(d_x_vec.data());
+//    thrust::device_vector<float> d_b_vec = {b(0), b(1), b(2)};
+//    float *d_b = thrust::raw_pointer_cast(d_b_vec.data());
+//
+//    // Solve the system Ax = b
+//    int singularity = solver.Solve(handle, d_b, d_x);
+//
+//    // Copy the solution to the host
+//    thrust::host_vector<float> h_x_vec = d_x_vec;
+//
+//    // Print out the results
+//    std::cout << "The solution vector is: [ ";
+//    for (const auto &val: h_x_vec) {
+//        std::cout << val << " ";
+//    }
+//    std::cout << "]" << std::endl;
+//
+//    std::cout << "Singularity: " << singularity << std::endl;
+//
+//    // Destroy cusolverSp handle
+//    cusolverSpDestroy(handle);
+//
+//    return 0;
+//}
+
+

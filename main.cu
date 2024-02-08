@@ -14,256 +14,186 @@
 
 #include "thrust/sequence.h"
 
+
+int main() {
+
+    int n;
+    float size;
+    float k;
+    int numSubstep;
+    int n_iter = 10;
+    bool log_time;
+
+    std::cout << "number of each side, cloth size, stiffness k, number of substep, log time or not" << std::endl;
+    std::cin >> n >> size >> k >> numSubstep >> log_time;
+
+    // init handles {
+    cusolverSpHandle_t cusolverSpHandle;
+    cusolverSpCreate(&cusolverSpHandle);
+    cusparseHandle_t cusparseHandle;
+    cusparseCreate(&cusparseHandle);
+
+    // }
+
+
+    // init device solver {
+
+
+    std::shared_ptr<Cloth> cloth = std::make_shared<Cloth>(n, size, k);
+
+    std::shared_ptr<D_Solver> dSolver = std::make_shared<D_Solver>(cloth, n_iter);
+    dSolver->SetHandles(cusolverSpHandle, cusparseHandle);
+
+    std::shared_ptr<D_Preprocessor> pre = std::make_shared<D_Preprocessor>(dSolver);
+    pre->Init();
+
+    std::cout << ">>> Preprocessing done...\n" << std::endl;
+
+    dSolver->AddFixed(0, 0);
+    dSolver->AddFixed(0, n - 1);
+
+    std::cout << ">>> Iteration per substep: " << n_iter << std::endl << std::endl;
+
+    // test 3
+//    std::cout << "row ptr:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
+//        std::cout << dSolver->d_M.d_row_ptr_vec[i] << std::endl;
+//    }
+//    std::cout << "\n\ncol idx:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->d_M.d_col_idx_vec[i] << std::endl;
+//    }
+//    std::cout << "\n\nval:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->d_M.d_val_vec[i] << std::endl;
+//    }
+
+
+
+    // test 2
+//    std::cout << "row ptr:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
+//        std::cout << dSolver->h_M.outerIndexPtr()[i] << std::endl;
+//    }
 //
-//int main() {
+//    std::cout << "\n\ncol idx:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->h_M.innerIndexPtr()[i] << std::endl;
+//    }
 //
-//    int n;
-//    float size;
-//    float k;
-//    int numSubstep;
-//    int n_iter = 10;
-//    bool log_time;
+//    std::cout << "\n\nval:" << std::endl;
+//    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
+//        std::cout << dSolver->h_M.valuePtr()[i] << std::endl;
+//    }
+
+
+    bool GUI;
+    std::cout << "enable GUI?" << std::endl;
+    std::cin >> GUI;
+
+
+    // }
+
+//     def update {
+
+    auto update = [&] {
+
+        for (int substep = 0; substep < numSubstep; substep++) {
+
+//            std::cout << "substep :" << substep << std::endl;
+            dSolver->Step();
+
+        }
+    };
+
+    // }
+
+    Timer updateTimer, drawTimer;
+
+    if (GUI) {
+//        const int screenWidth = 1200;
+//        const int screenHeight = 1200;
+//        const float radius = size / static_cast<float>(n) * .15f;
 //
-//    std::cout << "number of each side, cloth size, stiffness k, number of substep, log time or not" << std::endl;
-//    std::cin >> n >> size >> k >> numSubstep >> log_time;
-//
-//    // init handles {
-//    cusolverSpHandle_t cusolverSpHandle;
-//    cusolverSpCreate(&cusolverSpHandle);
-//    cusparseHandle_t cusparseHandle;
-//    cusparseCreate(&cusparseHandle);
-//
-//    // }
-//
-//
-//    // init device solver {
-//
-//
-//    std::shared_ptr<Cloth> cloth = std::make_shared<Cloth>(n, size, k);
-//
-//    std::shared_ptr<D_Solver> dSolver = std::make_shared<D_Solver>(cloth, n_iter);
-//    dSolver->SetHandles(cusolverSpHandle, cusparseHandle);
-//
-//    std::shared_ptr<D_Preprocessor> pre = std::make_shared<D_Preprocessor>(dSolver);
-//    pre->Init();
-//
-//    std::cout << ">>> Preprocessing done...\n" << std::endl;
-//
-//    dSolver->AddFixed(0, 0);
-//    dSolver->AddFixed(0, n - 1);
-//
-//    std::cout << ">>> Iteration per substep: " << n_iter << std::endl << std::endl;
-//
-//    // test 3
-////    std::cout << "row ptr:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
-////        std::cout << dSolver->d_M.d_row_ptr_vec[i] << std::endl;
-////    }
-////    std::cout << "\n\ncol idx:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-////        std::cout << dSolver->d_M.d_col_idx_vec[i] << std::endl;
-////    }
-////    std::cout << "\n\nval:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-////        std::cout << dSolver->d_M.d_val_vec[i] << std::endl;
-////    }
-//
-//
-//
-//    // test 2
-////    std::cout << "row ptr:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.outerSize() + 1; i++) {
-////        std::cout << dSolver->h_M.outerIndexPtr()[i] << std::endl;
-////    }
-////
-////    std::cout << "\n\ncol idx:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-////        std::cout << dSolver->h_M.innerIndexPtr()[i] << std::endl;
-////    }
-////
-////    std::cout << "\n\nval:" << std::endl;
-////    for (int i = 0; i < dSolver->h_M.nonZeros(); i++) {
-////        std::cout << dSolver->h_M.valuePtr()[i] << std::endl;
-////    }
-//
-//
-//    bool GUI;
-//    std::cout << "enable GUI?" << std::endl;
-//    std::cin >> GUI;
-//
-//
-//    // }
-//
-////     def update {
-//
-//    auto update = [&] {
-//
-//        for (int substep = 0; substep < numSubstep; substep++) {
-//
-////            std::cout << "substep :" << substep << std::endl;
-//            dSolver->Step();
-//
-//        }
-//    };
-//
-//    // }
-//
-//    Timer updateTimer, drawTimer;
-//
-//    if (GUI) {
-////        const int screenWidth = 1200;
-////        const int screenHeight = 1200;
-////        const float radius = size / static_cast<float>(n) * .15f;
-////
-////        InitWindow(screenWidth, screenHeight, "Projective dynamimcs");
-////        SetTargetFPS(60);
-////        Window3d window3d;
-////        window3d.Init();
-////        while (not WindowShouldClose()) {
-////
-////
-////            updateTimer.start();
-////            if (!window3d.pause) {
-////                update();
-////
-////            }
-////            updateTimer.stop();
-//////        std::cout << ">>> update" << std::endl;
-////
-////
-////            BeginDrawing();
-////            ClearBackground(RAYWHITE);
-////
-////            window3d.Update();
-////            window3d.Begin();
-////
-////            drawTimer.start();
-////            for (int i = 0; i < hSolver->cloth->numVertex; i++) {
-////
-////                Vector3 center = {hSolver->x[3 * i], hSolver->x[3 * i + 1], hSolver->x[3 * i + 2]};
-////                DrawPoint3D(center, RED);
-//////            DrawSphere(center, radius, RED);
-////
-////            }
-////            drawTimer.stop();
-////
-////
-////            window3d.End();
-////
-////
-////            EndDrawing();
-////
-////            if (log_time) {
-////                printf("update time: %f, draw time: %f\n\n", updateTimer.getTime(), drawTimer.getTime());
-////            }
-////
-////
-////        }
-////
-////        CloseWindow();
-//    } else {
-//        while (true) {
+//        InitWindow(screenWidth, screenHeight, "Projective dynamimcs");
+//        SetTargetFPS(60);
+//        Window3d window3d;
+//        window3d.Init();
+//        while (not WindowShouldClose()) {
 //
 //
 //            updateTimer.start();
-//            update();
-//            updateTimer.stop();
-//            std::cout << ">>> update" << std::endl;
+//            if (!window3d.pause) {
+//                update();
 //
-//
-//            for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
-//                for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
-//                    printf("[%.3f, %.3f, %.3f]  ",
-//                           dSolver->h_x[3 * dSolver->index(irow, icol)],
-//                           dSolver->h_x[3 * dSolver->index(irow, icol) + 1],
-//                           dSolver->h_x[3 * dSolver->index(irow, icol) + 2]);
-//                }
-//                std::cout << std::endl;
 //            }
+//            updateTimer.stop();
+////        std::cout << ">>> update" << std::endl;
 //
-//            std::cout << "\n --- Press Enter to continue --- \n";
-//            std::cin.get();
+//
+//            BeginDrawing();
+//            ClearBackground(RAYWHITE);
+//
+//            window3d.Update();
+//            window3d.Begin();
+//
+//            drawTimer.start();
+//            for (int i = 0; i < hSolver->cloth->numVertex; i++) {
+//
+//                Vector3 center = {hSolver->x[3 * i], hSolver->x[3 * i + 1], hSolver->x[3 * i + 2]};
+//                DrawPoint3D(center, RED);
+////            DrawSphere(center, radius, RED);
+//
+//            }
+//            drawTimer.stop();
+//
+//
+//            window3d.End();
+//
+//
+//            EndDrawing();
+//
+//            if (log_time) {
+//                printf("update time: %f, draw time: %f\n\n", updateTimer.getTime(), drawTimer.getTime());
+//            }
 //
 //
 //        }
-//    }
 //
-//    cusparseDestroy(cusparseHandle);
-//    cusolverSpDestroy(cusolverSpHandle);
-//
-//
-//    return 0;
-//
-//}
+//        CloseWindow();
+    } else {
+        while (true) {
 
 
-#include "cuda_runtime.h"
-#include "device_launch_parameters.h"
-#include <cusolverSp.h>
-#include <Eigen/Sparse>
-#include <Eigen/Dense>
-#include "MatrixTypes.hpp"
-#include <iostream>
+            updateTimer.start();
+            update();
+            updateTimer.stop();
+            std::cout << ">>> update" << std::endl;
 
-int main() {
-    cusolverSpHandle_t handle = nullptr;
-    cusolverSpCreate(&handle);
 
-    // Define matrix entries
-    // (row, column, value), indexing starts at 0
-    typedef Eigen::Triplet<float> T;
-    std::vector<T> tripletList;
-    tripletList.reserve(9);
-    tripletList.push_back(T(0, 0, 4));
-    tripletList.push_back(T(0, 1, 1));
-    tripletList.push_back(T(0, 2, 1));
-    tripletList.push_back(T(1, 0, 1));
-    tripletList.push_back(T(1, 1, 3));
-    tripletList.push_back(T(1, 2, 1));
-    tripletList.push_back(T(2, 0, 1));
-    tripletList.push_back(T(2, 1, 1));
-    tripletList.push_back(T(2, 2, 2));
+            for (int irow = 0; irow < dSolver->cloth->nside; irow++) {
+                for (int icol = 0; icol < dSolver->cloth->nside; icol++) {
+                    printf("[%.3f, %.3f, %.3f]  ",
+                           dSolver->h_x[3 * dSolver->index(irow, icol)],
+                           dSolver->h_x[3 * dSolver->index(irow, icol) + 1],
+                           dSolver->h_x[3 * dSolver->index(irow, icol) + 2]);
+                }
+                std::cout << std::endl;
+            }
 
-    // Create the Eigen sparse matrix
-    Eigen::SparseMatrix<float, Eigen::RowMajor> spA(3,3);
-    spA.setFromTriplets(tripletList.begin(), tripletList.end());
+            std::cout << "\n --- Press Enter to continue --- \n";
+            std::cin.get();
 
-    // b is a 3x1 vector
-    Eigen::Vector3f b;
-    b << 1, 2, 3;
-            
 
-    // Create csr_matrix from spA
-    csr_matrix csr_A(spA);
-
-    // Initialize the Cholesky solver
-    D_Cholesky solver(csr_A);
-
-    // Buffers to hold the solution and right-hand side vector
-    thrust::device_vector<float> d_x_vec = {0, 0, 0};
-    float *d_x = thrust::raw_pointer_cast(d_x_vec.data());
-    thrust::device_vector<float> d_b_vec = {b(0), b(1), b(2)};
-    float *d_b = thrust::raw_pointer_cast(d_b_vec.data());
-
-    // Solve the system Ax = b
-    int singularity = solver.Solve(handle, d_b, d_x);
-
-    // Copy the solution to the host
-    thrust::host_vector<float> h_x_vec = d_x_vec;
-
-    // Print out the results
-    std::cout << "The solution vector is: [ ";
-    for (const auto &val: h_x_vec) {
-        std::cout << val << " ";
+        }
     }
-    std::cout << "]" << std::endl;
 
-    std::cout << "Singularity: " << singularity << std::endl;
+    cusparseDestroy(cusparseHandle);
+    cusolverSpDestroy(cusolverSpHandle);
 
-    // Destroy cusolverSp handle
-    cusolverSpDestroy(handle);
 
     return 0;
+
 }
 
 
